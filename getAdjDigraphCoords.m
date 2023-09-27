@@ -1,135 +1,99 @@
-function prob = getAdjDigraphCoords(isRnd, start, goal, verbose, axMap)
+function prob = getAdjDigraphCoords(isRnd, start, goal, verbose, axMap, occupancy)
 % Create the `prob` structure used by GAVariable for genetic search.
 % The `prob` struct defines additional variables/functions needed on top of
 % optimoptions function that Matlab's default GA function uses.
 
-if nargin==0
-    isRnd = input("Set size of random graph (for hard-coded example press enter): ");
-end
-if isempty(isRnd)
-    isRnd = "l1";
-end
-if nargin < 4
-    % Unless verbose is explicitly specified, assume verbose:
-    verbose = true;
-end
-if verbose
-    interval = 0.2;
-    highlightn = 10;
-    if nargin < 5
-        axMap = gca;
-    end
-else
-    interval = 0.;
-    highlightn = 0;
-end
+prob = make_prob();
+% Initial parameters
+prob.postProcessFcn = @postProcessUnordered;
+prob.interval = 0;
+prob.highlightn = 10;
+prob.verbose = true;
 
-% figMap = gcf;
+% Populate other parameters that are empty:
+if nargin==0
+    isRnd = input("Set size of random graph, or name of layout file: ");
+    if isempty(isRnd)
+        isRnd = "l1";
+    end
+end
+if nargin >= 4
+    % Unless verbose is explicitly specified, assume verbose:
+    prob.verbose = verbose;
+end
+if prob.verbose
+    if nargin < 5
+        prob.axMap = gca;
+    else
+        prob.axMap = axMap;
+    end
+end
 
 % Get floor map
 if isstring(isRnd)
     layouts = split(isRnd, '+');
     func = str2func(layouts{1});
-    [points, bounds] = func();
-    [adj, coords] = to_graph(points);x
+    [prob.adj, prob.coords, prob.bounds] = func();
     for i=2:length(layouts)
         func = str2func(layouts{i});
-        [pointsi, boundsi] = func();
-        [adji, coordsi] = to_graph(pointsi);
-        [adj, coords, bounds] = combine_layout(adj, coords, bounds, adji, coordsi, boundsi, length(adj), 1);
+        [adji, coordsi, boundsi] = func();
+        [prob.adj, prob.coords, prob.bounds] = combine_layout( ...
+            prob.adj, prob.coords, prob.bounds, ...
+            adji, coordsi, boundsi, ...
+            length(prob.adj), 1);
     end
-    x = coords(:,1); y = coords(:,2);
-    digr = digraph(adj);
-    % dist = distances(digr);
-    occupancy = randi(10, 1, length(adj));
-    plot_occupancy(occupancy, coords, axMap); hold(axMap, "on");
-    if ~isempty(bounds)
-        plot_bounds(bounds, axMap);
-        pl = [];
-    else
-        pl = plot(axMap, digr, 'XData',x,'YData',y);
-    end
-    grid(axMap, "on");
 else
-    if isRnd > 0
-        adj = zeros(isRnd);
-        adj(randperm(numel(adj),int32(sqrt(numel(adj))))) = 1;
-    else
-    adj = [
-        [0,1,1,0];
-        [0,0,0,1];
-        [0,1,0,0];
-        [1,0,0,0];
-    ];
-    end
-    digr = digraph(adj);
-    % dist = distances(digr);
-    pl = plot(axMap, digr, 'Layout', 'force');
-    grid(axMap, "on");
-    x = pl.XData; y = pl.YData;
-    coords = [x, y];
-    occupancy = randi(10, 1, length(adj));
-    plot_occupancy(occupancy, coords, axMap); hold(axMap, "on");
+    [prob.adj, prob.coords, prob.bounds] = random_layout(isRnd);
 end
+
+prob.digr = digraph(prob.adj);
+if nargin  < 6 || occupancy=="Random"
+    prob.occupancy = randi(10, 1, length(prob.adj));
+else
+    prob.occupancy = occupancy;
+end
+plot_occupancy(prob.occupancy, prob.coords, prob.axMap); hold(prob.axMap, "on");
+if ~isempty(prob.bounds)
+    plot_bounds(prob.bounds, prob.axMap);
+else
+    x = prob.coords(:,1); y = prob.coords(:,2);
+    plot(prob.axMap, prob.digr, 'XData',x,'YData',y);
+end
+grid(prob.axMap, "on");
 
 % Get start,stop,goal points
 if nargin < 2  || isempty(start)
     scoords = ginput(1);
     if ~isempty(scoords)
-        [start, ~] = dsearchn(coords, scoords);
+        [start, ~] = dsearchn(prob.coords, scoords);
     end
     if isempty(start)
         start = input("start node (press enter to select via mouse): ");
     end
-    start = reshape(start, 1, []);
+    prob.start = reshape(start, 1, []);
 end
 if nargin < 3 || isempty(goal)
     gcoords = ginput;
     if ~isempty(gcoords)
-        [goal, ~] = dsearchn(coords, gcoords);
+        [goal, ~] = dsearchn(prob.coords, gcoords);
     end
     if isempty(goal)
         goal = input("goal node (press enter to select via mouse): ");
     end
-    goal = reshape(goal, 1, []);
+    prob.goal = reshape(goal, 1, []);
 end
-if length(start) > 1 || length(goal) > 1
-    stops = [start, goal];
-    probtype = 'unordered';
-    postProcess = @postProcessFunc;
-    allPairsPaths = cell(length(adj));
+if length(prob.start) > 1 || length(prob.goal) > 1
+    prob.stops = [prob.start, prob.goal];
+    prob.probtype = 'unordered';
+    prob.allPairsPaths = cell(length(prob.adj));
 else
-    stops = [];
-    probtype = 'ordered';
-    postProcess = [];
-    allPairsPaths = [];
+    prob.stops = [];
+    prob.probtype = 'ordered';
+    prob.postProcessFcn = [];
+    prob.allPairsPaths = [];
 end
-
-% The occupancy cost of each node
-cmap = jet(10);
-if ~isempty(pl)
-    markerSize = 2 + (occupancy / max(occupancy)) * (pl.MarkerSize);
-    pl.MarkerSize = markerSize;
-    nodeColor = cmap(occupancy, :);
-    pl.NodeColor = nodeColor;
-end
-
-% if ~verbose
-%     close(figMap);
-% end
 
 % Normalize matrices
-occupancy = occupancy / max(occupancy(:));
-adj = adj / max(adj(:));
-
-
-% Create final problem object
-prob = struct('probtype', probtype, 'N', length(adj),...
-    'adj', adj, 'digr', digr, 'coords', coords, ...
-    'pl', pl, 'axMap', axMap, 'start', start, 'goal', goal, 'stops', stops,...
-    'verbose', verbose, 'interval', interval, 'highlightn', highlightn,...
-    'occupancy', occupancy, 'postProcessFcn', @postProcessUnordered);
-prob.bounds = bounds;
-prob.allPairsPaths = allPairsPaths;
-prob.costMatrix = nan(prob.N);
+prob.occupancy = prob.occupancy / max(prob.occupancy(:));
+prob.adj = prob.adj / max(prob.adj(:));
 end

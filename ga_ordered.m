@@ -19,7 +19,7 @@ prob = getAdjDigraphCoords();
 %%
 
 % The fitness function measures how good a candidate solution is.
-fitness = @(sol) costFunc(sol, prob.adj, prob.start, prob.goal, prob.coords, prob.occupancy, 0, wdist, wturn, wcong);
+% fitness = @(sol, prob) [costFunc(sol, prob.adj, prob.start, prob.goal, prob.coords, prob.occupancy, 0, wdist, wturn, wcong), prob];
 
 % optimiztion options
 opts = optimoptions( ...
@@ -35,7 +35,7 @@ opts = optimoptions( ...
     'MaxGenerations', 20);
 
 
-[path, cost, timeTaken, prob] = GAVariable(opts, prob, fitness);
+[path, cost, timeTaken, prob] = GAVariable(opts, prob, @fitness);
 
 
 disp("Best solution: "); disp(path);
@@ -44,3 +44,7 @@ hold(prob.axMap, 'on');
 % highlight(prob.pl, path(1:end-1), path(2:end));
 delete(prob.lines);
 plot(prob.axMap, prob.coords(path,1), prob.coords(path, 2), 'Color', 'black', 'LineWidth', 3);
+
+function [cost, prob] = fitness(sol, prob)
+    cost = costFunc(sol, prob.adj, prob.start, prob.goal, prob.coords, prob.occupancy, 0, wdist, wturn, wcong);
+end

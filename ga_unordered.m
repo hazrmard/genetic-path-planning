@@ -14,7 +14,6 @@ wcong = 0.;
 wturn = 0.;
 
 prob = getAdjDigraphCoords();
-prob.postProcessFcn = @postProcessUnordered;
 
 % The local fitness function is the cost of individual paths between two
 % stop points. This is the same as fitness in ordered GA
