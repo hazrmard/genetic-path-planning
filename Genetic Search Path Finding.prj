@@ -1,0 +1,91 @@
+<deployment-project plugin="plugin.apptool" plugin-version="1.0">
+  <configuration build-checksum="1679767569" file="G:\My Drive\Job-TSU Contract\Research_Code\ahmed\Genetic Search Path Finding.prj" location="G:\My Drive\Job-TSU Contract\Research_Code\ahmed" name="Genetic Search Path Finding" target="target.mlapps" target-name="Package App">
+    <param.appname>Genetic Search Path Finding</param.appname>
+    <param.authnamewatermark>Ibrahim Ahmed</param.authnamewatermark>
+    <param.email>ibrahim.ahmed@vanderbilt.edu</param.email>
+    <param.company />
+    <param.icon />
+    <param.icons />
+    <param.summary>Genetic Search for path finding under constraints.</param.summary>
+    <param.description />
+    <param.screenshot>C:\Users\ibrah\AppData\Local\Temp\tpad7c991b_070c_466f_8399_bfba775e5b6d.png</param.screenshot>
+    <param.version>1.0</param.version>
+    <param.products.name>
+      <item>MATLAB</item>
+      <item>Global Optimization Toolbox</item>
+      <item>Optimization Toolbox</item>
+      <item>Statistics and Machine Learning Toolbox</item>
+    </param.products.name>
+    <param.products.id>
+      <item>1</item>
+      <item>90</item>
+      <item>6</item>
+      <item>19</item>
+    </param.products.id>
+    <param.products.version>
+      <item>9.14</item>
+      <item>4.8.1</item>
+      <item>9.5</item>
+      <item>12.5</item>
+    </param.products.version>
+    <param.platforms />
+    <param.output>${PROJECT_ROOT}</param.output>
+    <param.guid>ddd89a9b-b488-40de-a412-c40114d56858</param.guid>
+    <unset>
+      <param.company />
+      <param.icon />
+      <param.icons />
+      <param.description />
+      <param.version />
+      <param.platforms />
+      <param.output />
+    </unset>
+    <fileset.main>
+      <file>${PROJECT_ROOT}\App.mlapp</file>
+    </fileset.main>
+    <fileset.depfun>
+      <file>${PROJECT_ROOT}\AStar.m</file>
+      <file>${PROJECT_ROOT}\combine_layout.m</file>
+      <file>${PROJECT_ROOT}\costFunc.m</file>
+      <file>${PROJECT_ROOT}\costFuncUnordered.m</file>
+      <file>${PROJECT_ROOT}\creationFuncUnordered.m</file>
+      <file>${PROJECT_ROOT}\crossoverFuncUnordered.m</file>
+      <file>${PROJECT_ROOT}\GAVariable.m</file>
+      <file>${PROJECT_ROOT}\getAdjDigraphCoords.m</file>
+      <file>${PROJECT_ROOT}\mutationFuncUnordered.m</file>
+      <file>${PROJECT_ROOT}\plot_bounds.m</file>
+      <file>${PROJECT_ROOT}\plot_occupancy.m</file>
+      <file>${PROJECT_ROOT}\postProcessUnordered.m</file>
+      <file>${PROJECT_ROOT}\selectionFunc.m</file>
+      <file>${PROJECT_ROOT}\to_graph.m</file>
+      <file>${PROJECT_ROOT}\turnCost.m</file>
+    </fileset.depfun>
+    <fileset.resources>
+      <file>${PROJECT_ROOT}\layouts</file>
+    </fileset.resources>
+    <fileset.package />
+    <build-deliverables>
+      <file location="G:\My Drive\Job-TSU Contract\Research_Code" name="ahmed" optional="false">G:\My Drive\Job-TSU Contract\Research_Code\ahmed</file>
+    </build-deliverables>
+    <workflow />
+    <matlab>
+      <root>C:\Program Files\MATLAB\R2023a</root>
+      <toolboxes />
+    </matlab>
+    <platform>
+      <unix>false</unix>
+      <mac>false</mac>
+      <windows>true</windows>
+      <win2k>false</win2k>
+      <winxp>false</winxp>
+      <vista>false</vista>
+      <linux>false</linux>
+      <solaris>false</solaris>
+      <osver>10.0</osver>
+      <os32>false</os32>
+      <os64>true</os64>
+      <arch>win64</arch>
+      <matlab>true</matlab>
+    </platform>
+  </configuration>
+</deployment-project>
