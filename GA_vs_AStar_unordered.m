@@ -5,25 +5,12 @@ clear;
 
 trials = 100;
 maxstops = 10;
-% optimiztion options
-opts = optimoptions( ...
-    'ga', ...
-    'SelectionFcn',@selectionFunc,...
-    'CrossoverFraction', 1.0,...
-    'CrossoverFcn',@crossoverFuncUnordered,...
-    'MutationFcn',@mutationFuncUnordered,...
-    'PopulationSize',50,...
-    'CreationFcn',@creationFuncUnordered,...
-    'EliteCount',10,...,
-    'MaxStallGenerations',100,...
-    'FunctionTolerance',0,...
-    'MaxGenerations', 20);
 
 resGA = struct('time',[], 'cost', [], 'path', [], 'dist', []);
 resAS = struct('time',[], 'cost', [], 'path', [], 'dist', []);
 
 for t=1:trials
-    prob = getAdjDigraphCoords("l1", 1, 1, false);
+    prob = getProb("l1", 1, 1, false);
     nNodes = length(prob.adj);
     costAdj = 1 * prob.adj + 1 * prob.occupancy;
     costMatrix = distances(digraph(costAdj));
@@ -35,7 +22,7 @@ for t=1:trials
     prob.goal = stops(2);
     prob.stops = stops;
 
-    [path, cost, timeTaken, prob] = GAVariable(opts, prob, fitness);
+    [path, cost, timeTaken, prob] = GAVariable(prob, fitness);
     resGA(t).time = timeTaken;
     resGA(t).cost = cost;
     resGA(t).path = path;

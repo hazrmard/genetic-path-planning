@@ -15,7 +15,7 @@ wdist = 1;
 wcong = 0.1;
 wturn = 0.;
 
-prob = getAdjDigraphCoords();
+prob = getProb();
 %%
 
 % The fitness function measures how good a candidate solution is.

@@ -1,9 +1,9 @@
-function prob = getAdjDigraphCoords(isRnd, start, goal, verbose, axMap, occupancy)
+function prob = getProb(isRnd, start, goal, verbose, axMap, occupancy)
 % Create the `prob` structure used by GAVariable for genetic search.
 % The `prob` struct defines additional variables/functions needed on top of
 % optimoptions function that Matlab's default GA function uses.
 
-prob = make_prob();
+prob = makeProb();
 % Initial parameters
 prob.postProcessFcn = @postProcessUnordered;
 prob.interval = 0;
@@ -27,6 +27,8 @@ if prob.verbose
     else
         prob.axMap = axMap;
     end
+    prob.axMap.NextPlot = "add";
+    prob.axMap.ButtonDownFcn = @leave_marker;
 end
 
 % Get floor map
@@ -66,21 +68,28 @@ if nargin < 2  || isempty(start)
     scoords = ginput(1);
     if ~isempty(scoords)
         [start, ~] = dsearchn(prob.coords, scoords);
+        plot(prob.axMap, prob.coords(start,1), prob.coords(start,2), 'bx');
     end
     if isempty(start)
-        start = input("start node (press enter to select via mouse): ");
+        start = input("start node: ");
     end
     prob.start = reshape(start, 1, []);
 end
 if nargin < 3 || isempty(goal)
-    gcoords = ginput;
-    if ~isempty(gcoords)
-        [goal, ~] = dsearchn(prob.coords, gcoords);
+    gcoords = [];
+    while true
+        [x,y, button] = ginput(1);
+        if isempty(button) % Enter key pressed
+            break
+        end
+        [goal, ~] = dsearchn(prob.coords, [x,y]);
+        plot(prob.axMap, prob.coords(goal,1), prob.coords(goal,2), 'r*');
+        prob.goal = [prob.goal, goal];
     end
     if isempty(goal)
-        goal = input("goal node (press enter to select via mouse): ");
+        goal = input("goal node: ");
+        prob.goal = reshape(goal, 1, []);
     end
-    prob.goal = reshape(goal, 1, []);
 end
 if length(prob.start) > 1 || length(prob.goal) > 1
     prob.stops = [prob.start, prob.goal];

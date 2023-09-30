@@ -9,7 +9,7 @@ else
 end
 
 for i=1:2:length(bounds)
-    plot(ax, bounds{i}, bounds{i+1}, 'LineWidth', 2); hold(ax, "on");
+    l = plot(ax, bounds{i}, bounds{i+1}, 'LineWidth', 2); hold(ax, "on");
 end
 
 if ~state

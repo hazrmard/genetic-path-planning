@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="1378573838" file="G:\My Drive\Job-TSU Contract\Research_Code\ahmed\Genetic Search Path Finding.prj" location="G:\My Drive\Job-TSU Contract\Research_Code\ahmed" name="Genetic Search Path Finding" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="1813144724" file="G:\My Drive\Job-TSU Contract\Research_Code\ahmed\Genetic Search Path Finding.prj" location="G:\My Drive\Job-TSU Contract\Research_Code\ahmed" name="Genetic Search Path Finding" target="target.mlapps" target-name="Package App">
     <param.appname>Genetic Search Path Finding</param.appname>
     <param.authnamewatermark>Ibrahim Ahmed</param.authnamewatermark>
     <param.email>ibrahim.ahmed@vanderbilt.edu</param.email>
@@ -8,8 +8,8 @@
     <param.icons />
     <param.summary>Genetic Search for path finding under constraints.</param.summary>
     <param.description />
-    <param.screenshot>C:\Users\ibrah\AppData\Local\Temp\tpbe01da8c_1d01_4fc6_be22_7596b8aade6c.png</param.screenshot>
-    <param.version>1.1</param.version>
+    <param.screenshot>C:\Users\ibrah\AppData\Local\Temp\tp53a6bcfb_b91a_4d1a_9c68_efbffe88dbee.png</param.screenshot>
+    <param.version>1.2</param.version>
     <param.products.name>
       <item>MATLAB</item>
       <item>Global Optimization Toolbox</item>
@@ -50,13 +50,15 @@
       <file>${PROJECT_ROOT}\creationFuncUnordered.m</file>
       <file>${PROJECT_ROOT}\crossoverFuncUnordered.m</file>
       <file>${PROJECT_ROOT}\GAVariable.m</file>
-      <file>${PROJECT_ROOT}\getAdjDigraphCoords.m</file>
-      <file>${PROJECT_ROOT}\make_prob.m</file>
+      <file>${PROJECT_ROOT}\getProb.m</file>
+      <file>${PROJECT_ROOT}\makeProb.m</file>
       <file>${PROJECT_ROOT}\mutationFuncUnordered.m</file>
       <file>${PROJECT_ROOT}\plot_bounds.m</file>
       <file>${PROJECT_ROOT}\plot_occupancy.m</file>
       <file>${PROJECT_ROOT}\postProcessUnordered.m</file>
       <file>${PROJECT_ROOT}\selectionFunc.m</file>
+      <file>${PROJECT_ROOT}\static\logo_amazon.png</file>
+      <file>${PROJECT_ROOT}\static\logo_tsu.gif</file>
       <file>${PROJECT_ROOT}\to_graph.m</file>
       <file>${PROJECT_ROOT}\turnCost.m</file>
     </fileset.depfun>

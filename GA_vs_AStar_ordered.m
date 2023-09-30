@@ -4,23 +4,13 @@ rng default;
 clear;
 
 trials = 50;
-% optimiztion options
-opts = optimoptions( ...
-    'ga', ...
-    'CrossoverFraction', 1.0,...
-    'CrossoverFcn',@crossoverFunc,...
-    'PopulationSize',30,...
-    'CreationFcn',@creationFuncRnd,...
-    'EliteCount',5,...,
-    'MaxStallGenerations',100,...
-    'FunctionTolerance',0,...
-    'MaxGenerations', 20);
+
 
 resGA = struct('time',[], 'cost', [], 'path', [], 'dist', []);
 resAS = struct('time',[], 'cost', [], 'path', [], 'dist', []);
 
 for t=1:trials
-    prob = getAdjDigraphCoords("l1", 1, 1, false);
+    prob = getProb("l1", 1, 1, false);
     dist = distances(prob.digr);
     nNodes = length(prob.adj);
     nodes = datasample(1:nNodes, 2, 'Replace',false);
@@ -28,7 +18,7 @@ for t=1:trials
     prob.goal = nodes(2);
     fitness = @(sol) costFunc(sol, prob.adj, prob.start, prob.goal, prob.coords, prob.occupancy, 0, 1, 1, 1);
 
-    [path, cost, timeTaken, prob] = GAVariable(opts, prob, fitness);
+    [path, cost, timeTaken, prob] = GAVariable(prob, fitness);
     resGA(t).time = timeTaken;
     resGA(t).cost = cost;
     resGA(t).path = path;

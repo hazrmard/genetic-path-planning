@@ -1,12 +1,12 @@
-function [path, totalCost, timeTaken, prob] = GAVariable(opts, prob, fitness)
+function [path, totalCost, timeTaken, prob] = GAVariable(prob, fitness)
 %GAVariable - Genetic Search with variable length chromosomes
 
 % Create initial population
 ticPop = tic;
-population = opts.CreationFcn(opts, prob);
+population = prob.CreationFcn(prob, prob);
 tocPop = toc(ticPop);
 
-avgFitness = nan(opts.MaxGenerations, 1);
+avgFitness = nan(prob.MaxGenerations, 1);
 fitnessVals = zeros(length(population), 1);
 for i=1:length(fitnessVals)
     [fitnessVals(i), prob] = fitness(population{i}, prob);
@@ -38,33 +38,33 @@ timeSearch = 0.;
 %     disp("Press any key "); pause;
 % end
 %%
-for gen = 1:opts.MaxGenerations
+for gen = 1:prob.MaxGenerations
     ticSearch = tic;
 
     [fitnessVals, idx] = sort(fitnessVals);
     population = population(idx,1);
 
     % Elitism
-    % for i=1:opts.EliteCount
+    % for i=1:prob.EliteCount
     %     population{i,1} = parents{i,1};
     % end
 
     % Selection
-    [parents, pfitnessVals] = opts.SelectionFcn(population, fitnessVals, opts.PopulationSize);
+    [parents, pfitnessVals] = prob.SelectionFcn(population, fitnessVals, prob.PopulationSize);
 
     % Crossover
-    nKids = ceil((opts.PopulationSize - opts.EliteCount) * opts.CrossoverFraction);
-    kids = opts.CrossoverFcn(parents, pfitnessVals, nKids);
+    nKids = ceil((prob.PopulationSize - prob.EliteCount) * prob.CrossoverFraction);
+    kids = prob.CrossoverFcn(parents, pfitnessVals, nKids);
     for i=1:nKids
-        population{opts.EliteCount+i,1} = kids{i, 1};
+        population{prob.EliteCount+i,1} = kids{i, 1};
     end
 
     % Mutation
-    nMut = opts.PopulationSize - nKids - opts.EliteCount;
-    if (nMut > 0) && (~isempty(opts.MutationFcn))
-        idx = randi(opts.PopulationSize, nMut);
+    nMut = prob.PopulationSize - nKids - prob.EliteCount;
+    if (nMut > 0) && (~isempty(prob.MutationFcn))
+        idx = randi(prob.PopulationSize, nMut);
         for i=1:nMut
-            population{opts.EliteCount+nKids+i,1} = opts.MutationFcn(parents{idx(i),1});
+            population{prob.EliteCount+nKids+i,1} = prob.MutationFcn(parents{idx(i),1});
         end
     end
 
@@ -88,7 +88,7 @@ for gen = 1:opts.MaxGenerations
         % Metrics figure
         % set(l1, 'XData', 1:length(fitnessVals), 'YData', fitnessVals);  title(pl1, sprintf("Gen %d population fitness", gen));
         % set(l3, 'XData', 1:length(minFitness), 'YData', minFitness);
-        % set(l2, 'XData', 1:opts.MaxGenerations, 'YData', avgFitness);
+        % set(l2, 'XData', 1:prob.MaxGenerations, 'YData', avgFitness);
         % Graph map figure
         % Plot population
         for j=1:prob.highlightn

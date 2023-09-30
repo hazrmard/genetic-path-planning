@@ -13,36 +13,16 @@ wdist = 1;
 wcong = 0.;
 wturn = 0.;
 
-prob = getAdjDigraphCoords();
+prob = getProb();
 
 % The local fitness function is the cost of individual paths between two
 % stop points. This is the same as fitness in ordered GA
 prob.fitness_local = @(sol) costFunc(sol, prob.adj, prob.start, prob.goal, ...
     prob.coords, prob.occupancy, 0, wdist, wturn, wcong);
-% costAdj = wdist * prob.adj + wcong * prob.occupancy;
-% Cost matrix needed for pair-wise shortest distances between nodes
-% costMatrix = distances(digraph(costAdj));
-% The fitness function measures how good a candidate solution is. That is,
-% the ordering of stop points
-% fitness = @(sol) sum(costMatrix(sub2ind([prob.N, prob.N], sol(1:end-1), sol(2:end))));
 fitness = @costFuncUnordered;
 %%
 
-% optimiztion options
-opts = optimoptions( ...
-    'ga', ...
-    'SelectionFcn',@selectionFunc,...
-    'CrossoverFraction', 0.75,...
-    'CrossoverFcn',@crossoverFuncUnordered,...
-    'MutationFcn',@mutationFuncUnordered,...
-    'PopulationSize',50,...
-    'CreationFcn',@creationFuncUnordered,...
-    'EliteCount',10,...,
-    'MaxStallGenerations',max(100, length(prob.adj)^2),...
-    'FunctionTolerance',0,...
-    'MaxGenerations', 25);
-
-[stops, cost, timeTaken, prob] = GAVariable(opts, prob, fitness);
+[stops, cost, timeTaken, prob] = GAVariable(prob, fitness);
 
 
 disp("Best solution: "); disp(stops);
