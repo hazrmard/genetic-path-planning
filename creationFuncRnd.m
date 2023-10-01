@@ -1,10 +1,10 @@
-function pop = creationFuncRnd(opts, prob)
+function pop = creationFuncRnd(prob)
 %populationFunc creates an initial population for the graph
 % Author: Ibrahim Ahmed
-pop = cell(opts.PopulationSize,1);
+pop = cell(prob.PopulationSize,1);
 nodes = 1:length(prob.adj);
 i = 1;
-while i <= opts.PopulationSize
+while i <= prob.PopulationSize
     steps = 1;
     path = [prob.start,];
     reached = false;

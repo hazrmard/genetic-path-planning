@@ -1,17 +1,19 @@
-function prob = getProb(isRnd, start, goal, verbose, axMap, occupancy)
+function prob = getProb(isRnd, start, goal, verbose, axMap, occupancy, unordered)
 % Create the `prob` structure used by GAVariable for genetic search.
 % The `prob` struct defines additional variables/functions needed on top of
 % optimoptions function that Matlab's default GA function uses.
 
-prob = makeProb();
+if nargin<7
+    unordered=true;
+end
+prob = makeProb(unordered);
 % Initial parameters
-prob.postProcessFcn = @postProcessUnordered;
 prob.interval = 0;
 prob.highlightn = 10;
 prob.verbose = true;
 
 % Populate other parameters that are empty:
-if nargin==0
+if nargin==0 || isempty(isRnd)
     isRnd = input("Set size of random graph, or name of layout file: ");
     if isempty(isRnd)
         isRnd = "l1";
@@ -22,13 +24,11 @@ if nargin >= 4
     prob.verbose = verbose;
 end
 if prob.verbose
-    if nargin < 5
+    if nargin < 5 || isempty(axMap)
         prob.axMap = gca;
     else
         prob.axMap = axMap;
     end
-    prob.axMap.NextPlot = "add";
-    prob.axMap.ButtonDownFcn = @leave_marker;
 end
 
 % Get floor map
@@ -49,7 +49,7 @@ else
 end
 
 prob.digr = digraph(prob.adj);
-if nargin  < 6 || occupancy=="Random"
+if nargin  < 6 || (~isempty(occupancy) && occupancy=="Random")
     prob.occupancy = randi(10, 1, length(prob.adj));
 else
     prob.occupancy = occupancy;
@@ -91,7 +91,7 @@ if nargin < 3 || isempty(goal)
         prob.goal = reshape(goal, 1, []);
     end
 end
-if length(prob.start) > 1 || length(prob.goal) > 1
+if length(prob.goal) > 1
     prob.stops = [prob.start, prob.goal];
     prob.probtype = 'unordered';
     prob.allPairsPaths = cell(length(prob.adj));

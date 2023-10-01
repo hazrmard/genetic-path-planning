@@ -3,7 +3,7 @@ function [path, totalCost, timeTaken, prob] = GAVariable(prob, fitness)
 
 % Create initial population
 ticPop = tic;
-population = prob.CreationFcn(prob, prob);
+population = prob.CreationFcn(prob);
 tocPop = toc(ticPop);
 
 avgFitness = nan(prob.MaxGenerations, 1);
@@ -69,8 +69,8 @@ for gen = 1:prob.MaxGenerations
     end
 
     % Post process
-    if ~isempty(prob.postProcessFcn)
-        [population, prob] = prob.postProcessFcn(population, prob);
+    if ~isempty(prob.PostProcessFcn)
+        [population, prob] = prob.PostProcessFcn(population, prob);
     end
 
     % score population

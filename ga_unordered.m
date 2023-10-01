@@ -20,7 +20,6 @@ prob = getProb();
 prob.fitness_local = @(sol) costFunc(sol, prob.adj, prob.start, prob.goal, ...
     prob.coords, prob.occupancy, 0, wdist, wturn, wcong);
 fitness = @costFuncUnordered;
-%%
 
 [stops, cost, timeTaken, prob] = GAVariable(prob, fitness);
 

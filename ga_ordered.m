@@ -15,27 +15,14 @@ wdist = 1;
 wcong = 0.1;
 wturn = 0.;
 
-prob = getProb();
+prob = getProb([],[],[],[],[],[],false);
 %%
 
 % The fitness function measures how good a candidate solution is.
 % fitness = @(sol, prob) [costFunc(sol, prob.adj, prob.start, prob.goal, prob.coords, prob.occupancy, 0, wdist, wturn, wcong), prob];
 
-% optimiztion options
-opts = optimoptions( ...
-    'ga', ...
-    'SelectionFcn',@selectionFunc,...
-    'CrossoverFraction', 1.0,...
-    'CrossoverFcn',@crossoverFunc,...
-    'PopulationSize',30,...
-    'CreationFcn',@creationFuncRnd,...
-    'EliteCount',5,...,
-    'MaxStallGenerations',max(100, length(prob.adj)^2),...
-    'FunctionTolerance',0,...
-    'MaxGenerations', 20);
 
-
-[path, cost, timeTaken, prob] = GAVariable(opts, prob, @fitness);
+[path, cost, timeTaken, prob] = GAVariable(prob, @fitness);
 
 
 disp("Best solution: "); disp(path);
