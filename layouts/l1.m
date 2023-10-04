@@ -1,7 +1,9 @@
 function [adj, coords, bounds] = l1()
-%L1 Summary of this function goes here
-%   Detailed explanation goes here
-x  =  [0,90,90,0,0,45,45,35,35,25,25,10,10,5,5,0];
+%L1 layout. Each layout is a function that returns the adjacency matrix,
+%the coordinates of each node/vertex, and optionally the bounds of
+%obstacles (for visualization). Bounds is a cell array of polygon
+%coordinates of walls/pillars etc {[x1],[y1],[x2],[y2],...}
+x  =  [0,45,45,35,35,25,25,10,10,5,5,0];
 x1 =  [10,20,20,15,15,10,10];
 x2 =  [5,5,20,20,5];
 x3 =  [60,60,70,70,60];
@@ -23,7 +25,7 @@ x18 = [85,85,80,80,70,70,85];
 x19 = [70,70,65,65,50,50,40,40,50,50,60,60,70]; 
 x20 = [90,90,70,70,85,85,90]; 
 
-y  =  [0,0,80,80,0,0,5,5,20,20,5,5,15,15,30,30];
+y  =  [0,0,5,5,20,20,5,5,15,15,30,30];
 y1 =  [30,30,10,10,20,20,30];
 y2 =  [35,45,45,35,35];
 y3 =  [0,10,10,0,0];

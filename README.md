@@ -4,7 +4,7 @@ This repository contains Matlab code for using Genetic Search with A* search for
 
 Given an unordered list of stopping points, a cost function, and a floor plan, an optimal list of stops is calculated using genetic search.
 
-This repository provides two endpoints: A GUI application, and a function.
+This repository provides two endpoints: A GUI application, and a function. THe application can be downloaded and installed from the [Releases Page](https://github.com/hazrmard/genetic-path-planning/releases).
 
 ![](./static/App_Screenshot.png)
 
@@ -19,14 +19,11 @@ prob = getProb();
 
 % Set the local fitness function.
 % The local fitness function is the cost of individual paths between two
-% stop points. The following is the default implementation:
-prob.fitness_local = @(sol) costFunc(sol, prob.adj, prob.start, prob.goal, ...
-    prob.coords, prob.occupancy, 0, wdist, wturn, wcong);
+% stop points. Lower is better. The following is the default implementation:
 % This is the general signature:
-prob.fitness_local = @(array containing ordering of stop points) (fitness value, lower is better)
+prob.fitness_local = @(array containing ordering of stop points) (fitness value)
 
-% Set the global fitness function. This is the fitness of the sequence of stopping points.
-fitness = @costFuncUnordered;
+% Set the global fitness function. Lower is better. This is the fitness of the sequence of stopping points.
 % The signature is
 fitness = @(array of stop points, prob) (fitness value, prob)
 

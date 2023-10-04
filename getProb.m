@@ -54,7 +54,7 @@ if nargin  < 6 || (~isempty(occupancy) && occupancy=="Random")
 else
     prob.occupancy = occupancy;
 end
-plot_occupancy(prob.occupancy, prob.coords, prob.axMap); hold(prob.axMap, "on");
+plot_occupancy(prob.occupancy, prob.coords, prob.axMap, prob.bounds); hold(prob.axMap, "on");
 if ~isempty(prob.bounds)
     plot_bounds(prob.bounds, prob.axMap);
 else
