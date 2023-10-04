@@ -19,13 +19,13 @@ prob = getProb();
 
 % Set the local fitness function.
 % The local fitness function is the cost of individual paths between two
-% stop points. Lower is better. The following is the default implementation:
+% stop points. Lower is better.
 % This is the general signature:
-prob.fitness_local = @(array containing ordering of stop points) (fitness value)
+prob.fitness_local = @([nodes traversed between two stop points]) (fitness value)
 
 % Set the global fitness function. Lower is better. This is the fitness of the sequence of stopping points.
 % The signature is
-fitness = @(array of stop points, prob) (fitness value, prob)
+fitness = @([ordering of stop points], prob) (fitness value, prob)
 
 % Run the genetic search:
 [stops, cost, timeTaken, prob] = GAVariable(prob, fitness);
