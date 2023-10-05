@@ -49,7 +49,7 @@ else
 end
 
 prob.digr = digraph(prob.adj);
-if nargin  < 6 || (~isempty(occupancy) && occupancy=="Random")
+if nargin  < 6 || (~isempty(occupancy) && strcmpi(occupancy, "Random"))
     prob.occupancy = randi(10, 1, length(prob.adj));
 else
     prob.occupancy = occupancy;

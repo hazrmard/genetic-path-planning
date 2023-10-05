@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.apptool" plugin-version="1.0">
-  <configuration build-checksum="3438752197" file="G:\My Drive\Job-TSU Contract\Research_Code\ahmed\Genetic Search Path Finding.prj" location="G:\My Drive\Job-TSU Contract\Research_Code\ahmed" name="Genetic Search Path Finding" target="target.mlapps" target-name="Package App">
+  <configuration build-checksum="731264766" file="G:\My Drive\Job-TSU Contract\Research_Code\ahmed\Genetic Search Path Finding.prj" location="G:\My Drive\Job-TSU Contract\Research_Code\ahmed" name="Genetic Search Path Finding" target="target.mlapps" target-name="Package App">
     <param.appname>Genetic Search Path Finding</param.appname>
     <param.authnamewatermark>Ibrahim Ahmed</param.authnamewatermark>
     <param.email>ibrahim.ahmed@vanderbilt.edu</param.email>
@@ -8,8 +8,8 @@
     <param.icons />
     <param.summary>Genetic Search for path finding under constraints.</param.summary>
     <param.description />
-    <param.screenshot>C:\Users\ibrah\AppData\Local\Temp\tpb44cf2a7_1680_4b4f_8a41_f0a05c58b3ff.png</param.screenshot>
-    <param.version>1.3</param.version>
+    <param.screenshot>C:\Users\ibrah\AppData\Local\Temp\tp3d73e3a2_e4a2_42e6_8a10_a03a0d0a42de.png</param.screenshot>
+    <param.version>1.2</param.version>
     <param.products.name>
       <item>MATLAB</item>
       <item>Global Optimization Toolbox</item>
