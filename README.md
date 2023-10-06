@@ -2,7 +2,7 @@
 
 This repository contains Matlab code for using Genetic Search with A* search for robotic path planning.
 
-Given an unordered list of stopping points, a cost function, and a floor plan, an optimal list of stops is calculated using genetic search.
+Given an unordered list of stopping points, a cost function, and [a floor plan (see layouts/)](./layouts), an optimal list of stops is calculated using genetic search.
 
 This repository provides two endpoints: A GUI application, and a function. THe application can be downloaded and installed from the [Releases Page](https://github.com/hazrmard/genetic-path-planning/releases).
 
